@@ -8,11 +8,13 @@ genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-1.5-pro-latest")
 
 # Load dataset
-dataset = load_dataset("KadamParth/NCERT_Science_10th")
-qa_data = dataset["train"]
+science_dataset = load_dataset("KadamParth/NCERT_Science_10th")["train"]
+social_dataset= load_dataset("KadamParth/NCERT_Social_Studies_10th")["train"]
+
 
 # Convert dataset into a dictionary for fast lookup
-qa_dict = {entry["Question"].strip().lower(): entry["Answer"] for entry in qa_data}
+qa_dict = {entry["Question"].strip().lower(): entry["Answer"] for entry in science_dataset}
+qa_dict.update({entry["Question"].strip().lower(): entry["Answer"] for entry in social_dataset})
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -34,4 +36,3 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-#heloo world 
